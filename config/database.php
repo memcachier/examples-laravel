@@ -1,5 +1,7 @@
 <?php
 
+$dbopts = parse_url(env('DATABASE_URL'));
+
 return [
 
     /*
@@ -54,9 +56,7 @@ return [
             'engine' => null,
         ],
 
-        'pgsql' => function() {
-          $dbopts = parse_url(env('DATABASE_URL'));
-          return [
+        'pgsql' => [
             'driver' => 'pgsql',
             'host' => $dbopts['host'],
             'port' => $dbopts['port'],
@@ -67,8 +67,7 @@ return [
             'prefix' => '',
             'schema' => 'public',
             'sslmode' => 'prefer',
-          ];
-        },
+        ],
 
         'sqlsrv' => [
             'driver' => 'sqlsrv',
