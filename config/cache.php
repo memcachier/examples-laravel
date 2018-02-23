@@ -51,21 +51,37 @@ return [
 
         'memcached' => [
             'driver' => 'memcached',
-            'persistent_id' => env('MEMCACHED_PERSISTENT_ID'),
+            'persistent_id' => 'memcached_pool_id',
             'sasl' => [
-                env('MEMCACHED_USERNAME'),
-                env('MEMCACHED_PASSWORD'),
+                env('MEMCACHIER_USERNAME'),
+                env('MEMCACHIER_PASSWORD'),
             ],
             'options' => [
-                // Memcached::OPT_CONNECT_TIMEOUT  => 2000,
+                // some nicer default options
+                // - nicer TCP options
+                Memcached::OPT_TCP_NODELAY => TRUE,
+                Memcached::OPT_NO_BLOCK => FALSE,
+                // - timeouts
+                Memcached::OPT_CONNECT_TIMEOUT => 2000,    // ms
+                Memcached::OPT_POLL_TIMEOUT => 2000,       // ms
+                Memcached::OPT_RECV_TIMEOUT => 750 * 1000, // us
+                Memcached::OPT_SEND_TIMEOUT => 750 * 1000, // us
+                // - better failover
+                Memcached::OPT_DISTRIBUTION => Memcached::DISTRIBUTION_CONSISTENT,
+                Memcached::OPT_LIBKETAMA_COMPATIBLE => TRUE,
+                Memcached::OPT_RETRY_TIMEOUT => 2,
+                Memcached::OPT_SERVER_FAILURE_LIMIT => 1,
+                Memcached::OPT_AUTO_EJECT_HOSTS => TRUE,
+
             ],
-            'servers' => [
-                [
-                    'host' => env('MEMCACHED_HOST', '127.0.0.1'),
-                    'port' => env('MEMCACHED_PORT', 11211),
+            'servers' => array_map(function($s) {
+                $parts = explode(":", $s);
+                return [
+                    'host' => $parts[0],
+                    'port' => $parts[1],
                     'weight' => 100,
-                ],
-            ],
+                ];
+              }, explode(",", env('MEMCACHIER_SERVERS', 'localhost:11211')))
         ],
 
         'redis' => [
