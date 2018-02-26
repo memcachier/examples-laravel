@@ -25,9 +25,11 @@ Route::get('/', function () {
     return Task::orderBy('created_at', 'asc')->get();
   });
   // $tasks = Task::orderBy('created_at', 'asc')->get();
+  $stats = Cache::getMemcached()->getStats();
 
   return view('tasks', [
-    'tasks' => $tasks
+    'tasks' => $tasks,
+    'stats' => array_pop($stats)
   ]);
 });
 
