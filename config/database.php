@@ -1,5 +1,6 @@
 <?php
 
+// $dbopts = parse_url(env('DATABASE_URL', 'postgres://u:p@localhost:5432/does-not-exist'));
 $dbopts = parse_url(env('DATABASE_URL'));
 
 return [
