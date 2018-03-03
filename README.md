@@ -23,7 +23,7 @@ $ git clone https://github.com/memcachier/examples-laravel.git
 $ cd examples-laravel
 $ composer install
 $ touch database/database.sqlite
-$ php artisan migrate
+$ php artisan migrate --force
 $ echo "APP_KEY=`php artisan key:generate --show`" > .env
 $ memcached &  # run a local memcached server instance
 $ php artisan serve
@@ -53,7 +53,7 @@ $ heroku config:set LOG_CHANNEL=errorlog
 $ heroku config:set CACHE_DRIVER=memcached
 $ heroku config:set SESSION_DRIVER=memcached
 $ git push heroku master
-$ heroku run php artisan migrate
+$ heroku run php artisan migrate --force
 $ heroku open
 ```
 

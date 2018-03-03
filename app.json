@@ -26,6 +26,6 @@
     }
   },
   "scripts": {
-    "postdeploy": "php artisan migrate"
+    "postdeploy": "php artisan migrate --force"
   }
 }
