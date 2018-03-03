@@ -1,0 +1,31 @@
+{
+  "name": "MemCachier Laravel Tutorial",
+  "description": "PHP Laravel app for a tutorial on using Laravel, MemCachier and Heroku together",
+  "keywords": ["php", "laravel", "memcache", "memcached", "memcachier", "caching", "tutorial", "performance" ],
+  "logo": "https://www.memcachier.com/assets/logo-large.png",
+  "image": "heroku/php",
+  "website": "https://www.memcachier.com",
+  "repository": "https://github.com/memcachier/examples-laravel",
+  "addons": [ "heroku-postgresql:hobby-dev", "memcachier" ],
+  "env": {
+    "APP_KEY": {
+      "description": "This should be changed with `heroku config:set APP_KEY=xxx` after the initial deploy. Run `heroku run php artisan key:generate --show` to generate a new app key.",
+      "value": "base64:4tLwD4XBdiP0SmHjbR08bkbl7S/itIi9Xj+X6+W93eo="
+    },
+    "LOG_CHANNEL": {
+      "value": "errorlog"
+    },
+    "DB_CONNECTION": {
+      "value": "pgsql"
+    },
+    "CACHE_DRIVER": {
+      "value": "memcached"
+    },
+    "SESSION_DRIVER": {
+      "value": "memcached"
+    }
+  },
+  "scripts": {
+    "postdeploy": "php artisan migrate"
+  }
+}
